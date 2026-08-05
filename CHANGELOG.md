@@ -1,0 +1,46 @@
+# Changelog
+
+All notable changes to NexHuman will be documented in this file.
+
+## [Unreleased]
+
+### Planned
+
+- Static hero visual
+- Animated wave background
+- Interactive 3D brain
+- Orbiting cryptocurrency icons
+- Landing-page polish
+
+## [0.2.0] - 2026-08-05
+
+### Added
+
+- Responsive landing-page hero section
+- Primary and secondary call-to-action buttons
+- Hero visual placeholder
+- Investment-platform value indicators
+- Financial guidance disclaimer
+
+### Changed
+
+- Improved landing-page typography and visual hierarchy
+
+## [0.1.0] - 2026-08-05
+
+### Added
+
+- React and Vite frontend
+- Tailwind CSS integration
+- Framer Motion and Three.js dependencies
+- Reusable container and button components
+- Responsive navigation bar
+- Git and GitHub repository setup
+
+### Changed
+
+- Expanded the hero visual area
+- Refined the hero description
+- Updated the hero category label
+- Added animated arrow indicators to hero call-to-action buttons
+- Improved desktop spacing between hero content and visual

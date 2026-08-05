@@ -5,22 +5,22 @@ import HeroVisual from "./HeroVisual";
 function Hero() {
   return (
     <main className="relative overflow-hidden">
-      {/* Background lighting */}
       <div
         className="pointer-events-none absolute inset-0
-                   bg-[radial-gradient(circle_at_20%_20%,rgba(124,58,237,0.16),transparent_34%),radial-gradient(circle_at_78%_25%,rgba(37,99,235,0.14),transparent_30%)]"
+                   bg-[radial-gradient(circle_at_18%_20%,rgba(124,58,237,0.17),transparent_36%),radial-gradient(circle_at_78%_25%,rgba(37,99,235,0.15),transparent_32%)]"
       />
 
       <Container
         className="relative grid min-h-[calc(100vh-5rem)] items-center
-                   gap-10 py-14 lg:grid-cols-[0.9fr_1.1fr] lg:py-20"
+                   gap-12 py-16 lg:grid-cols-[minmax(0,1fr)_minmax(520px,1.2fr)]
+                   lg:gap-16 lg:py-20 xl:gap-24"
       >
-        <section className="text-center lg:text-left">
+        <section className="max-w-2xl text-center lg:text-left">
           <p
-            className="mb-5 text-sm font-semibold uppercase
-                       tracking-[0.25em] text-violet-300"
+            className="mb-6 text-xs font-semibold uppercase
+                       tracking-[0.3em] text-violet-300 sm:text-sm"
           >
-            Human-first investment intelligence
+            AI-powered portfolio optimisation
           </p>
 
           <h1
@@ -29,16 +29,16 @@ function Hero() {
           >
             Smarter
             <span
-              className="mt-1 block bg-gradient-to-r from-violet-300
-                         via-purple-400 to-blue-400 bg-clip-text
-                         text-transparent"
+              className="mt-1 block pb-2 leading-[1.08] bg-gradient-to-r
+                         from-violet-300 via-purple-400 to-blue-400
+                         bg-clip-text text-transparent"
             >
               Crypto Investing.
             </span>
           </h1>
 
           <h2
-            className="mt-6 text-2xl font-medium text-slate-200
+            className="mt-6 text-2xl font-medium leading-tight text-slate-200
                        sm:text-3xl"
           >
             Powered by your personal AI advisor.
@@ -48,20 +48,23 @@ function Hero() {
             className="mx-auto mt-6 max-w-xl text-base leading-8
                        text-slate-400 sm:text-lg lg:mx-0"
           >
-            Build, optimize and understand your cryptocurrency portfolio using
-            evolutionary algorithms, transparent recommendations and
-            intelligent market analysis.
+            Build smarter cryptocurrency portfolios using evolutionary AI,
+            transparent recommendations and intelligent market insights.
           </p>
 
           <div
             className="mt-9 flex flex-col items-center justify-center gap-4
                        sm:flex-row lg:justify-start"
           >
-            <Button className="min-w-40">
+            <Button className="min-w-40" showArrow>
               Start now
             </Button>
 
-            <Button variant="secondary" className="min-w-40">
+            <Button
+              variant="secondary"
+              className="min-w-40"
+              showArrow
+            >
               Learn more
             </Button>
           </div>
