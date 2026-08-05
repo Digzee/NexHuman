@@ -44,3 +44,16 @@ All notable changes to NexHuman will be documented in this file.
 - Updated the hero category label
 - Added animated arrow indicators to hero call-to-action buttons
 - Improved desktop spacing between hero content and visual
+
+### Added
+
+- Project architecture documentation
+- NexHuman design-system documentation
+- Development milestone tracker
+- Static digital-brain hero visual
+- Cryptocurrency icons for Bitcoin, Ethereum, Solana and Cardano
+- Holographic platform and orbital visual elements
+
+### Changed
+
+- Replaced the generic hero placeholder with a branded investment-intelligence visual
