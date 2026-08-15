@@ -63,3 +63,10 @@ All notable changes to NexHuman will be documented in this file.
 - Animated flowing energy-wave layer behind the hero visual
 - Multiple layered wave paths with independent motion
 - Reduced-motion accessibility support for hero animations
+
+### Added
+
+- Independent floating motion for cryptocurrency icons
+- Click interaction allowing cryptocurrency icons to spin
+- Hover and keyboard focus states for interactive crypto elements
+- Reduced-motion support for cryptocurrency animations

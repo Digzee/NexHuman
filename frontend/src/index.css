@@ -98,3 +98,56 @@ button {
     animation: none;
   }
 }
+
+.crypto-icon {
+  animation: crypto-float 6s ease-in-out infinite;
+  animation-delay: var(--float-delay);
+  will-change: transform;
+}
+
+.crypto-icon:hover {
+  animation-play-state: paused;
+}
+
+.crypto-icon-spin {
+  animation:
+    crypto-spin 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    crypto-float 6s ease-in-out infinite;
+  animation-delay: 0s, var(--float-delay);
+}
+
+@keyframes crypto-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  25% {
+    transform: translate3d(4px, -8px, 0);
+  }
+
+  50% {
+    transform: translate3d(-3px, -13px, 0);
+  }
+
+  75% {
+    transform: translate3d(-6px, -5px, 0);
+  }
+}
+
+@keyframes crypto-spin {
+  from {
+    rotate: 0deg;
+  }
+
+  to {
+    rotate: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crypto-icon,
+  .crypto-icon-spin {
+    animation: none;
+  }
+}

@@ -1,9 +1,12 @@
+import { useState } from "react";
+
 import {
   SiBitcoin,
   SiCardano,
   SiEthereum,
   SiSolana,
 } from "react-icons/si";
+
 import { LuBrainCircuit } from "react-icons/lu";
 import FlowingWaves from "./FlowingWaves";
 
@@ -12,6 +15,7 @@ const cryptoAssets = [
     name: "Bitcoin",
     Icon: SiBitcoin,
     position: "left-[3%] top-[27%]",
+    delay: "0s",
     colour:
       "border-orange-300/30 bg-orange-400/10 text-orange-300 shadow-orange-500/20",
   },
@@ -19,6 +23,7 @@ const cryptoAssets = [
     name: "Ethereum",
     Icon: SiEthereum,
     position: "right-[7%] top-[17%]",
+    delay: "-1.5s",
     colour:
       "border-indigo-300/30 bg-indigo-400/10 text-indigo-200 shadow-indigo-500/20",
   },
@@ -26,6 +31,7 @@ const cryptoAssets = [
     name: "Solana",
     Icon: SiSolana,
     position: "bottom-[20%] right-[2%]",
+    delay: "-3s",
     colour:
       "border-cyan-300/30 bg-cyan-400/10 text-cyan-200 shadow-cyan-500/20",
   },
@@ -33,21 +39,43 @@ const cryptoAssets = [
     name: "Cardano",
     Icon: SiCardano,
     position: "bottom-[14%] left-[11%]",
+    delay: "-4.5s",
     colour:
       "border-blue-300/30 bg-blue-400/10 text-blue-200 shadow-blue-500/20",
   },
 ];
 
-function CryptoIcon({ name, Icon, position, colour }) {
+function CryptoIcon({ name, Icon, position, colour, delay = "0s" }) {
+  const [isSpinning, setIsSpinning] = useState(false);
+
+  function handleSpin() {
+    if (isSpinning) return;
+
+    setIsSpinning(true);
+
+    window.setTimeout(() => {
+      setIsSpinning(false);
+    }, 700);
+  }
+
   return (
-    <div
-      aria-label={name}
-      className={`absolute ${position} z-20 flex h-16 w-16 items-center
-                  justify-center rounded-full border shadow-[0_0_35px]
-                  backdrop-blur-md ${colour}`}
+    <button
+      type="button"
+      aria-label={`Spin ${name} icon`}
+      onClick={handleSpin}
+      style={{ "--float-delay": delay }}
+      className={`crypto-icon absolute ${position} z-20 flex h-16 w-16
+                  cursor-pointer items-center justify-center rounded-full
+                  border shadow-[0_0_35px] backdrop-blur-md
+                  transition-transform duration-300
+                  hover:scale-110 focus:outline-none focus:ring-2
+                  focus:ring-violet-400 focus:ring-offset-2
+                  focus:ring-offset-[#050816]
+                  ${isSpinning ? "crypto-icon-spin" : ""}
+                  ${colour}`}
     >
       <Icon aria-hidden="true" className="text-3xl" />
-    </div>
+    </button>
   );
 }
 
@@ -59,7 +87,7 @@ function HeroVisual() {
       aria-label="NexHuman investment intelligence visual"
     >
       <FlowingWaves />
-      
+
       {/* Ambient lighting */}
       <div
         className="pointer-events-none absolute h-96 w-96 rounded-full
