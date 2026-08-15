@@ -7,7 +7,7 @@ import {
   SiSolana,
 } from "react-icons/si";
 
-import { LuBrainCircuit } from "react-icons/lu";
+import BrainVisual from "./BrainVisual";
 import FlowingWaves from "./FlowingWaves";
 
 const cryptoAssets = [
@@ -110,33 +110,7 @@ function HeroVisual() {
                    border border-blue-300/10"
       />
 
-      {/* Brain glow */}
-      <div
-        className="absolute h-72 w-80 rounded-[45%]
-                   bg-gradient-to-br from-violet-500/25
-                   via-blue-500/15 to-cyan-400/5 blur-2xl"
-      />
-
-      {/* Static brain */}
-      <div
-        className="relative z-10 flex h-64 w-72 items-center justify-center
-                   rounded-[44%] border border-violet-300/20
-                   bg-gradient-to-br from-violet-500/10
-                   via-blue-500/5 to-transparent
-                   shadow-[0_0_90px_rgba(99,102,241,0.32)]
-                   backdrop-blur-sm"
-      >
-        <div
-          className="absolute inset-4 rounded-[44%]
-                     border border-blue-300/10"
-        />
-
-        <LuBrainCircuit
-          aria-hidden="true"
-          className="relative text-[11rem] text-violet-200
-                     drop-shadow-[0_0_30px_rgba(167,139,250,0.7)]"
-        />
-      </div>
+      <BrainVisual />
 
       {/* Vertical light beneath brain */}
       <div

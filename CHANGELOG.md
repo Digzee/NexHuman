@@ -70,3 +70,10 @@ All notable changes to NexHuman will be documented in this file.
 - Click interaction allowing cryptocurrency icons to spin
 - Hover and keyboard focus states for interactive crypto elements
 - Reduced-motion support for cryptocurrency animations
+
+### Added
+
+- Interactive brain component
+- Subtle breathing and glow animation
+- Mouse-responsive brain tilt
+- Reduced-motion handling for brain animation

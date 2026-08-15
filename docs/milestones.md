@@ -12,6 +12,8 @@
 - [x] Flowing energy waves
 - [x] Floating cryptocurrency icons
 - [ ] Interactive 3D brain
+  - [x] Living 2D brain interaction prototype
+  - [ ] Three.js brain implementation
 - [ ] Entrance animations
 - [ ] Mobile refinement
 - [ ] Landing-page accessibility review
