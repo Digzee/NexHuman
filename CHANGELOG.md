@@ -77,3 +77,15 @@ All notable changes to NexHuman will be documented in this file.
 - Subtle breathing and glow animation
 - Mouse-responsive brain tilt
 - Reduced-motion handling for brain animation
+
+### Added
+
+- React Three Fiber hero scene
+- Procedural three-dimensional neural brain visual
+- Dynamic 3D lighting
+- Pointer-responsive brain orientation
+- Subtle floating motion and neural particles
+
+### Changed
+
+- Replaced the interactive 2D brain prototype with a WebGL-rendered 3D visual
