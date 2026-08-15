@@ -29,3 +29,72 @@ a {
 button {
   font: inherit;
 }
+
+.energy-wave {
+  stroke-dasharray: 18 22;
+  stroke-dashoffset: 0;
+}
+
+.energy-wave-a {
+  animation:
+    wave-flow-a 8s linear infinite,
+    wave-drift-a 7s ease-in-out infinite alternate;
+}
+
+.energy-wave-a-secondary {
+  animation:
+    wave-flow-b 11s linear infinite reverse,
+    wave-drift-b 9s ease-in-out infinite alternate;
+}
+
+.energy-wave-b {
+  animation:
+    wave-flow-b 10s linear infinite,
+    wave-drift-b 8s ease-in-out infinite alternate;
+}
+
+.wave-group-a {
+  opacity: 0.75;
+}
+
+.wave-group-b {
+  opacity: 0.55;
+}
+
+@keyframes wave-flow-a {
+  to {
+    stroke-dashoffset: -160;
+  }
+}
+
+@keyframes wave-flow-b {
+  to {
+    stroke-dashoffset: 180;
+  }
+}
+
+@keyframes wave-drift-a {
+  from {
+    transform: translateY(-4px);
+  }
+
+  to {
+    transform: translateY(10px);
+  }
+}
+
+@keyframes wave-drift-b {
+  from {
+    transform: translateY(7px);
+  }
+
+  to {
+    transform: translateY(-8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .energy-wave {
+    animation: none;
+  }
+}

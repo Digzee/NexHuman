@@ -57,3 +57,9 @@ All notable changes to NexHuman will be documented in this file.
 ### Changed
 
 - Replaced the generic hero placeholder with a branded investment-intelligence visual
+
+### Added
+
+- Animated flowing energy-wave layer behind the hero visual
+- Multiple layered wave paths with independent motion
+- Reduced-motion accessibility support for hero animations

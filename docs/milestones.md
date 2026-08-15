@@ -9,7 +9,7 @@
 - [x] Responsive navigation
 - [x] Static hero layout
 - [x] Static hero visual
-- [ ] Flowing energy waves
+- [x] Flowing energy waves
 - [ ] Floating cryptocurrency icons
 - [ ] Interactive 3D brain
 - [ ] Entrance animations

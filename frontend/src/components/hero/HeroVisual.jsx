@@ -5,6 +5,7 @@ import {
   SiSolana,
 } from "react-icons/si";
 import { LuBrainCircuit } from "react-icons/lu";
+import FlowingWaves from "./FlowingWaves";
 
 const cryptoAssets = [
   {
@@ -57,6 +58,8 @@ function HeroVisual() {
                  items-center justify-center lg:min-h-[520px]"
       aria-label="NexHuman investment intelligence visual"
     >
+      <FlowingWaves />
+      
       {/* Ambient lighting */}
       <div
         className="pointer-events-none absolute h-96 w-96 rounded-full
