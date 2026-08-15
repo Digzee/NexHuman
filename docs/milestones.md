@@ -14,7 +14,7 @@
 - [x] Interactive 3D brain
   - [x] Living 2D brain interaction prototype
   - [x] Three.js brain implementation
-- [ ] Entrance animations
+- [x] Entrance animations
 - [ ] Mobile refinement
 - [ ] Landing-page accessibility review
 

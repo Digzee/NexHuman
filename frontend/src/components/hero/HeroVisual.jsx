@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
 import {
   SiBitcoin,
@@ -59,11 +60,28 @@ function CryptoIcon({ name, Icon, position, colour, delay = "0s" }) {
   }
 
   return (
-    <button
+    <motion.button
       type="button"
       aria-label={`Spin ${name} icon`}
       onClick={handleSpin}
       style={{ "--float-delay": delay }}
+
+      initial={{
+        opacity: 0,
+        scale: 0.7,
+        y: 12,
+      }}
+      animate={{
+        opacity: 1,
+        scale: 1,
+        y: 0,
+      }}
+      transition={{
+        duration: 0.7,
+        delay: 2.2,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      
       className={`crypto-icon absolute ${position} z-20 flex h-16 w-16
                   cursor-pointer items-center justify-center rounded-full
                   border shadow-[0_0_35px] backdrop-blur-md
@@ -75,11 +93,12 @@ function CryptoIcon({ name, Icon, position, colour, delay = "0s" }) {
                   ${colour}`}
     >
       <Icon aria-hidden="true" className="text-3xl" />
-    </button>
+    </motion.button>
   );
 }
 
 function HeroVisual() {
+  const shouldReduceMotion = useReducedMotion();
   return (
     <div
       className="relative mx-auto flex min-h-[420px] w-full max-w-3xl
@@ -117,7 +136,18 @@ function HeroVisual() {
                    via-blue-500/15 to-cyan-400/5 blur-2xl"
       />
 
-      <BrainScene />
+      <motion.div
+        initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.94 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 1,
+          delay: shouldReduceMotion ? 0 : 1.3,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        className="relative z-10"
+      >
+        <BrainScene />
+      </motion.div>
 
       {/* Vertical light beneath brain */}
       <div
@@ -125,18 +155,33 @@ function HeroVisual() {
                    bg-gradient-to-b from-violet-400/20 to-transparent
                    blur-2xl"
       />
+      
+      <motion.div
+        initial={shouldReduceMotion ? false : { opacity: 0, scaleX: 0.65 }}
+        animate={{ opacity: 1, scaleX: 1 }}
+        transition={{
+          duration: 0.8,
+          delay: shouldReduceMotion ? 0 : 1.6,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        className="pointer-events-none absolute inset-0 origin-center"
+      >
+        {/* Holographic platform */}
+        <div
+          className="absolute bottom-16 left-1/2 h-12 w-80
+                    -translate-x-1/2 rounded-[100%]
+                    border border-violet-300/25 bg-violet-500/10
+                    shadow-[0_0_75px_rgba(124,58,237,0.5)]"
+        />
 
-      {/* Holographic platform */}
-      <div
-        className="absolute bottom-16 h-12 w-80 rounded-[100%]
-                   border border-violet-300/25 bg-violet-500/10
-                   shadow-[0_0_75px_rgba(124,58,237,0.5)]"
-      />
+        <div
+          className="absolute bottom-[4.6rem] left-1/2 h-5 w-64
+                    -translate-x-1/2 rounded-[100%]
+                    border border-blue-300/20 bg-blue-400/10 blur-[1px]"
+        />
+      </motion.div>
 
-      <div
-        className="absolute bottom-[4.6rem] h-5 w-64 rounded-[100%]
-                   border border-blue-300/20 bg-blue-400/10 blur-[1px]"
-      />
+
 
       {cryptoAssets.map((asset) => (
         <CryptoIcon key={asset.name} {...asset} />

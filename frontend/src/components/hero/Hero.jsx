@@ -1,8 +1,30 @@
 import Button from "../ui/Button";
 import Container from "../layout/Container";
 import HeroVisual from "./HeroVisual";
+import { motion, useReducedMotion } from "framer-motion";
 
 function Hero() {
+  const shouldReduceMotion = useReducedMotion();
+
+  const entrance = (delay) => ({
+    initial: shouldReduceMotion
+      ? false
+      : {
+          opacity: 0,
+          y: 18,
+        },
+
+    animate: {
+      opacity: 1,
+      y: 0,
+    },
+
+    transition: {
+      duration: 0.65,
+      delay: shouldReduceMotion ? 0 : delay,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  });
   return (
     <main className="relative overflow-hidden">
       <div
@@ -16,14 +38,16 @@ function Hero() {
                    lg:gap-16 lg:py-20 xl:gap-24"
       >
         <section className="max-w-2xl text-center lg:text-left">
-          <p
+          <motion.p
+            {...entrance(0,2)}
             className="mb-6 text-xs font-semibold uppercase
                        tracking-[0.3em] text-violet-300 sm:text-sm"
           >
             AI-powered portfolio optimisation
-          </p>
+          </motion.p>
 
-          <h1
+          <motion.h1
+            {...entrance(0.4)}
             className="text-5xl font-semibold tracking-tight text-white
                        sm:text-6xl lg:text-7xl"
           >
@@ -35,24 +59,27 @@ function Hero() {
             >
               Crypto Investing.
             </span>
-          </h1>
+          </motion.h1>
 
-          <h2
+          <motion.h2
+            {...entrance(0.7)}
             className="mt-6 text-2xl font-medium leading-tight text-slate-200
                        sm:text-3xl"
           >
             Powered by your personal AI advisor.
-          </h2>
+          </motion.h2>
 
-          <p
+          <motion.p
+            {...entrance(0.9)}
             className="mx-auto mt-6 max-w-xl text-base leading-8
                        text-slate-400 sm:text-lg lg:mx-0"
           >
             Build smarter cryptocurrency portfolios using evolutionary AI,
             transparent recommendations and intelligent market insights.
-          </p>
+          </motion.p>
 
-          <div
+          <motion.div
+            {...entrance(1.1)}
             className="mt-9 flex flex-col items-center justify-center gap-4
                        sm:flex-row lg:justify-start"
           >
@@ -67,20 +94,23 @@ function Hero() {
             >
               Learn more
             </Button>
-          </div>
+          </motion.div>
 
-          <div
+          <motion.div
+            {...entrance(1.3)}
             className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-3
                        text-sm text-slate-400 lg:justify-start"
           >
             <span>✓ Evolutionary AI</span>
             <span>✓ Explainable recommendations</span>
             <span>✓ Market intelligence</span>
-          </div>
+          </motion.div>
 
-          <p className="mt-5 text-xs leading-5 text-slate-600">
+          <motion.p
+            {...entrance(1.4)}
+            className="mt-5 text-xs leading-5 text-slate-600">
             Educational portfolio guidance. Not regulated financial advice.
-          </p>
+          </motion.p>
         </section>
 
         <HeroVisual />

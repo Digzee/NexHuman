@@ -89,3 +89,13 @@ All notable changes to NexHuman will be documented in this file.
 ### Changed
 
 - Replaced the interactive 2D brain prototype with a WebGL-rendered 3D visual
+
+### Added
+
+- Progressive hero entrance sequence
+- Staggered landing-page content reveal
+- Delayed brain materialisation
+- Holographic platform entrance
+- Delayed energy-wave activation
+- Cryptocurrency asset entrance animation
+- Reduced-motion handling for the landing-page sequence

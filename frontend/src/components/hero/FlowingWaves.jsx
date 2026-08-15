@@ -1,6 +1,15 @@
+import { motion, useReducedMotion } from "framer-motion";
+
 function FlowingWaves() {
+  const shouldReduceMotion = useReducedMotion();
   return (
-    <div
+    <motion.div
+        initial={shouldReduceMotion ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{
+            duration: 1.2,
+            delay: shouldReduceMotion ? 0 : 1.9,
+        }}
       className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
       aria-hidden="true"
     >
@@ -75,7 +84,7 @@ function FlowingWaves() {
           />
         </g>
       </svg>
-    </div>
+    </motion.div>
   );
 }
 
