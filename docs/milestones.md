@@ -38,12 +38,12 @@
   - [x] Registration frontend
   - [x] Registration integration and testing
 
-- [ ] Login
-  - [ ] JWT authentication setup
-  - [ ] Login API endpoint
-  - [ ] Access and refresh tokens
-  - [ ] Login frontend
-  - [ ] Login integration and testing
+- [x] Login
+  - [x] JWT authentication setup
+  - [x] Login API endpoint
+  - [x] Access and refresh tokens
+  - [x] Login frontend
+  - [x] Login integration and testing
 
 - [ ] User sessions
   - [ ] Authenticated user endpoint

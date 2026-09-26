@@ -1,4 +1,6 @@
 import { FaArrowRight } from "react-icons/fa6";
+import { Link } from "react-router-dom";
+
 
 const variants = {
   primary:
@@ -7,18 +9,19 @@ const variants = {
     "border border-white/15 bg-white/5 text-white hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/10",
 };
 
+
 function Button({
   children,
   variant = "primary",
   className = "",
   type = "button",
   showArrow = false,
+  to,
 }) {
-  return (
-    <button
-      type={type}
-      className={`group inline-flex items-center justify-center gap-3 rounded-full px-6 py-2.5 text-sm font-semibold transition duration-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 focus:ring-offset-[#050816] ${variants[variant]} ${className}`}
-    >
+  const classes = `group inline-flex items-center justify-center gap-3 rounded-full px-6 py-2.5 text-sm font-semibold transition duration-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 focus:ring-offset-[#050816] ${variants[variant]} ${className}`;
+
+  const content = (
+    <>
       <span>{children}</span>
 
       {showArrow && (
@@ -27,8 +30,23 @@ function Button({
           className="text-xs transition-transform duration-200 group-hover:translate-x-1"
         />
       )}
+    </>
+  );
+
+  if (to) {
+    return (
+      <Link to={to} className={classes}>
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <button type={type} className={classes}>
+      {content}
     </button>
   );
 }
+
 
 export default Button;

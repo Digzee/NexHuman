@@ -1,16 +1,19 @@
+import { Link } from "react-router-dom";
+
 import Container from "../layout/Container";
 import Button from "../ui/Button";
+
 
 function Navbar() {
   return (
     <header className="relative z-20 border-b border-white/5 bg-[#050816]/80 backdrop-blur-md">
       <Container className="flex h-20 items-center justify-between">
-        <a
-          href="/"
+        <Link
+          to="/"
           className="text-xl font-semibold tracking-tight text-white"
         >
           NexHuman
-        </a>
+        </Link>
 
         <nav
           aria-label="Primary navigation"
@@ -30,11 +33,14 @@ function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <button className="hidden px-4 py-2 text-sm font-medium text-slate-300 transition hover:text-white sm:block">
+          <Link
+            to="/login"
+            className="hidden px-4 py-2 text-sm font-medium text-slate-300 transition hover:text-white sm:block"
+          >
             Login
-          </button>
+          </Link>
 
-          <Button className="px-5 py-2.5">
+          <Button to="/register" className="px-5 py-2.5">
             Register
           </Button>
         </div>
@@ -42,5 +48,6 @@ function Navbar() {
     </header>
   );
 }
+
 
 export default Navbar;

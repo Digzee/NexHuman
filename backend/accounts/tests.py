@@ -87,3 +87,83 @@ class RegistrationTests(APITestCase):
         self.assertIn("first_name", response.data)
         self.assertIn("last_name", response.data)
         self.assertEqual(User.objects.count(), 0)
+
+class LoginTests(APITestCase):
+    def setUp(self):
+        self.url = reverse("login")
+
+        self.user = User.objects.create_user(
+            email="login@example.com",
+            password="SecureTestPassword123!",
+            first_name="Test",
+            last_name="User",
+        )
+
+    def test_user_can_login_with_email_and_password(self):
+        data = {
+            "email": "login@example.com",
+            "password": "SecureTestPassword123!",
+        }
+
+        response = self.client.post(self.url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("access", response.data)
+        self.assertIn("refresh", response.data)
+        self.assertIn("user", response.data)
+
+        self.assertEqual(
+            response.data["user"]["email"],
+            "login@example.com",
+        )
+
+    def test_invalid_password_is_rejected(self):
+        data = {
+            "email": "login@example.com",
+            "password": "WrongPassword123!",
+        }
+
+        response = self.client.post(self.url, data, format="json")
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_401_UNAUTHORIZED,
+        )
+
+        self.assertNotIn("access", response.data)
+        self.assertNotIn("refresh", response.data)
+
+    def test_unknown_email_is_rejected(self):
+        data = {
+            "email": "unknown@example.com",
+            "password": "SecureTestPassword123!",
+        }
+
+        response = self.client.post(self.url, data, format="json")
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_401_UNAUTHORIZED,
+        )
+
+    def test_refresh_token_returns_new_access_token(self):
+        login_response = self.client.post(
+            self.url,
+            {
+                "email": "login@example.com",
+                "password": "SecureTestPassword123!",
+            },
+            format="json",
+        )
+
+        refresh_token = login_response.data["refresh"]
+
+        response = self.client.post(
+            reverse("token_refresh"),
+            {"refresh": refresh_token},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("access", response.data)
+        self.assertIn("refresh", response.data)

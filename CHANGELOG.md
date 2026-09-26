@@ -140,3 +140,11 @@ All notable changes to NexHuman will be documented in this file.
 - Added React registration page with field-level validation feedback.
 - Integrated the React registration flow with the Django REST API.
 - Added loading, success and API error states to registration.
+- Added JWT-based email and password login.
+- Added access and refresh token generation.
+- Added refresh-token endpoint and token rotation.
+- Added automated tests for successful login, invalid credentials and token refresh.
+- Added React login page with loading, success and error states.
+- Integrated the login page with the Django REST API.
+- Added Login and Register navigation to the landing page.
+- Improved reusable Button component to support internal navigation.
