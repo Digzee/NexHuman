@@ -2,12 +2,14 @@ import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Sparkles } from "@react-three/drei";
 import * as THREE from "three";
+import { useReducedMotion } from "framer-motion";
 
-function BrainCore() {
+
+function BrainCore({ shouldReduceMotion  }) {
   const groupRef = useRef();
 
   useFrame((state) => {
-    if (!groupRef.current) return;
+    if (!groupRef.current || shouldReduceMotion) return;
 
     const targetX = state.pointer.y * 0.12;
     const targetY = state.pointer.x * 0.18;
@@ -28,10 +30,10 @@ function BrainCore() {
   return (
     <group ref={groupRef} rotation={[0.08, -0.15, 0]}>
       <Float
-        speed={1}
-        rotationIntensity={0.08}
-        floatIntensity={0.22}
-        floatingRange={[-0.08, 0.08]}
+        speed={shouldReduceMotion ? 0 : 1}
+        rotationIntensity={shouldReduceMotion ? 0 : 0.08}
+        floatIntensity={shouldReduceMotion ? 0 : 0.22}
+        floatingRange={shouldReduceMotion ? [0, 0] : [-0.08, 0.08]}
       >
         <mesh position={[-0.72, 0, 0]} scale={[1, 1.15, 0.9]}>
           <icosahedronGeometry args={[1.05, 4]} />
@@ -98,10 +100,13 @@ function BrainCore() {
 }
 
 function BrainScene() {
+  const shouldReduceMotion = useReducedMotion();
   return (
     <div
-      className="relative z-10 h-72 w-80 sm:h-80 sm:w-96"
-      aria-label="Interactive three-dimensional neural brain visual"
+      className="relative z-10 h-60 w-64
+                sm:h-72 sm:w-80
+                lg:h-80 lg:w-96"
+      aria-label="true"
     >
       <Canvas
         camera={{
@@ -135,13 +140,13 @@ function BrainScene() {
           color="#22d3ee"
         />
 
-        <BrainCore />
+        <BrainCore shouldReduceMotion={shouldReduceMotion} />
 
         <Sparkles
           count={35}
           scale={[4, 3, 2]}
           size={1.5}
-          speed={0.15}
+          speed={shouldReduceMotion ? 0 : 0.15}
           opacity={0.35}
           color="#c4b5fd"
         />

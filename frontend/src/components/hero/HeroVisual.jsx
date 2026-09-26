@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+} from "framer-motion";
 
 import {
   SiBitcoin,
@@ -99,16 +104,83 @@ function CryptoIcon({ name, Icon, position, colour, delay = "0s" }) {
 
 function HeroVisual() {
   const shouldReduceMotion = useReducedMotion();
+  const glowX = useMotionValue(0);
+  const glowY = useMotionValue(0);
+  const depthX = useMotionValue(0);
+  const depthY = useMotionValue(0);
+
+  const smoothGlowX = useSpring(glowX, {
+    stiffness: 45,
+    damping: 20,
+  });
+
+  const smoothGlowY = useSpring(glowY, {
+    stiffness: 45,
+    damping: 20,
+  });
+  const smoothDepthX = useSpring(depthX, {
+  stiffness: 55,
+  damping: 22,
+  });
+
+  const smoothDepthY = useSpring(depthY, {
+    stiffness: 55,
+    damping: 22,
+  });
+
+  function handlePointerMove(event) {
+    if (shouldReduceMotion) return;
+
+    const bounds = event.currentTarget.getBoundingClientRect();
+
+    const x = event.clientX - bounds.left;
+    const y = event.clientY - bounds.top;
+
+    const xPercent = x / bounds.width - 0.5;
+    const yPercent = y / bounds.height - 0.5;
+
+    glowX.set(xPercent * 22);
+    glowY.set(yPercent * 16);
+    depthX.set(xPercent * 10);
+    depthY.set(yPercent * 8);
+  }
+
+  function handlePointerLeave() {
+    glowX.set(0);
+    glowY.set(0);
+
+    depthX.set(0);
+    depthY.set(0);
+  }
+  
   return (
     <div
-      className="relative mx-auto flex min-h-[420px] w-full max-w-3xl
-                 items-center justify-center lg:min-h-[520px]"
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+      className="relative mx-auto flex min-h-[360px] w-full max-w-3xl
+           items-center justify-center
+           sm:min-h-[420px]
+           lg:min-h-[520px]"
       aria-label="NexHuman investment intelligence visual"
     >
-      <FlowingWaves />
+      <motion.div
+        style={{
+          x: shouldReduceMotion ? 0 : smoothDepthX,
+          y: shouldReduceMotion ? 0 : smoothDepthY,
+        }}
+        className="pointer-events-none absolute inset-0"
+      >
+        <div className="h-full w-full scale-[1.03]">
+          <FlowingWaves />
+        </div>
+      </motion.div>
 
       {/* Ambient lighting */}
-      <div
+      <motion.div
+        style={{
+          x: smoothGlowX,
+          y: smoothGlowY,
+        }}
         className="pointer-events-none absolute h-96 w-96 rounded-full
                    bg-violet-600/20 blur-3xl"
       />
@@ -144,6 +216,10 @@ function HeroVisual() {
           delay: shouldReduceMotion ? 0 : 1.3,
           ease: [0.22, 1, 0.36, 1],
         }}
+          style={{
+            x: smoothDepthX,
+            y: smoothDepthY,
+          }}
         className="relative z-10"
       >
         <BrainScene />

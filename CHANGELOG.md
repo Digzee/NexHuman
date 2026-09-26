@@ -99,3 +99,16 @@ All notable changes to NexHuman will be documented in this file.
 - Delayed energy-wave activation
 - Cryptocurrency asset entrance animation
 - Reduced-motion handling for the landing-page sequence
+
+### Added
+
+- Responsive hero visual sizing across mobile, tablet and desktop
+- Pointer-responsive ambient lighting
+- Subtle hero depth and parallax effects
+- Reduced-motion support for the Three.js brain scene
+
+### Changed
+
+- Improved mobile sizing of the Three.js hero visual
+- Improved accessibility of decorative hero graphics
+- Limited WebGL pixel density for more predictable rendering performance

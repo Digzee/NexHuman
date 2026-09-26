@@ -15,8 +15,9 @@
   - [x] Living 2D brain interaction prototype
   - [x] Three.js brain implementation
 - [x] Entrance animations
-- [ ] Mobile refinement
-- [ ] Landing-page accessibility review
+- [x] Mobile refinement
+- [x] Landing-page accessibility review
+- [ ] Final 3D brain model refinement
 
 ## Phase 2 — Authentication
 
