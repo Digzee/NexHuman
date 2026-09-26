@@ -13,6 +13,15 @@ All notable changes to NexHuman will be documented in this file.
 - Defined investment profiling as a separate backend domain
 - Defined persistent, context-aware AI advisor architecture
 
+### Backend
+- Added Django 5.2 backend with Django REST Framework.
+- Added PostgreSQL database integration using Psycopg.
+- Added environment-based configuration for application secrets and database credentials.
+- Added CORS configuration for local frontend development.
+- Added a custom email-based user model and user manager.
+- Added initial database migrations.
+- Added Django Admin support for the custom user model.
+
 ### Planned
 
 - Static hero visual

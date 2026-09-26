@@ -21,10 +21,48 @@
 
 ## Phase 2 — Authentication
 
+- [x] Backend foundation
+  - [x] Python virtual environment
+  - [x] Django and Django REST Framework setup
+  - [x] PostgreSQL database setup
+  - [x] Environment configuration
+  - [x] CORS configuration
+  - [x] Custom email-based User model
+  - [x] Initial database migrations
+  - [x] Django Admin configuration
+
 - [ ] Registration
+  - [ ] Registration API endpoint
+  - [ ] Registration validation
+  - [ ] Password hashing and validation
+  - [ ] Registration frontend
+  - [ ] Registration integration and testing
+
 - [ ] Login
-- [ ] Password reset
+  - [ ] JWT authentication setup
+  - [ ] Login API endpoint
+  - [ ] Access and refresh tokens
+  - [ ] Login frontend
+  - [ ] Login integration and testing
+
 - [ ] User sessions
+  - [ ] Authenticated user endpoint
+  - [ ] Frontend authentication state
+  - [ ] Token refresh
+  - [ ] Protected routes
+  - [ ] Logout
+  - [ ] Session persistence and testing
+
+- [ ] Password reset
+  - [ ] Password reset request endpoint
+  - [ ] Secure reset token workflow
+  - [ ] Password reset email
+  - [ ] New-password endpoint
+  - [ ] Password reset frontend
+  - [ ] Password reset integration and testing
+
+- [ ] Authentication accessibility and security review
+- [ ] Phase 2 integration testing
 
 ## Phase 3 — Portfolio Dashboard
 
