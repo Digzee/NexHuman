@@ -3,24 +3,6 @@
 All notable changes to NexHuman will be documented in this file.
 
 ## [Unreleased]
-### Architecture
-
-- Defined domain-oriented Django backend architecture
-- Selected PostgreSQL as the primary database
-- Defined email-based JWT authentication architecture
-- Defined backend-mediated market-data architecture
-- Defined persistent optimisation-run history
-- Defined investment profiling as a separate backend domain
-- Defined persistent, context-aware AI advisor architecture
-
-### Backend
-- Added Django 5.2 backend with Django REST Framework.
-- Added PostgreSQL database integration using Psycopg.
-- Added environment-based configuration for application secrets and database credentials.
-- Added CORS configuration for local frontend development.
-- Added a custom email-based user model and user manager.
-- Added initial database migrations.
-- Added Django Admin support for the custom user model.
 
 ### Planned
 
@@ -130,3 +112,31 @@ All notable changes to NexHuman will be documented in this file.
 - Improved mobile sizing of the Three.js hero visual
 - Improved accessibility of decorative hero graphics
 - Limited WebGL pixel density for more predictable rendering performance
+
+### Architecture
+
+- Defined domain-oriented Django backend architecture
+- Selected PostgreSQL as the primary database
+- Defined email-based JWT authentication architecture
+- Defined backend-mediated market-data architecture
+- Defined persistent optimisation-run history
+- Defined investment profiling as a separate backend domain
+- Defined persistent, context-aware AI advisor architecture
+
+### Backend
+- Added Django 5.2 backend with Django REST Framework.
+- Added PostgreSQL database integration using Psycopg.
+- Added environment-based configuration for application secrets and database credentials.
+- Added CORS configuration for local frontend development.
+- Added a custom email-based user model and user manager.
+- Added initial database migrations.
+- Added Django Admin support for the custom user model.
+
+### Authentication
+- Added user registration API with email-based account creation.
+- Added Django password validation and secure password hashing.
+- Added validation for required names, unique email addresses and password strength.
+- Added automated registration API tests.
+- Added React registration page with field-level validation feedback.
+- Integrated the React registration flow with the Django REST API.
+- Added loading, success and API error states to registration.

@@ -1,12 +1,15 @@
-import Hero from "./components/hero/Hero";
-import Navbar from "./components/navigation/Navbar";
+import { Route, Routes } from "react-router-dom";
+
+import HomePage from "./pages/HomePage";
+import RegisterPage from "./pages/RegisterPage";
+
 
 function App() {
   return (
-    <div className="min-h-screen bg-[#050816] text-slate-100">
-      <Navbar />
-      <Hero />
-    </div>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/register" element={<RegisterPage />} />
+    </Routes>
   );
 }
 

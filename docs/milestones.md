@@ -31,12 +31,12 @@
   - [x] Initial database migrations
   - [x] Django Admin configuration
 
-- [ ] Registration
-  - [ ] Registration API endpoint
-  - [ ] Registration validation
-  - [ ] Password hashing and validation
-  - [ ] Registration frontend
-  - [ ] Registration integration and testing
+- [x] Registration
+  - [x] Registration API endpoint
+  - [x] Registration validation
+  - [x] Password hashing and validation
+  - [x] Registration frontend
+  - [x] Registration integration and testing
 
 - [ ] Login
   - [ ] JWT authentication setup
