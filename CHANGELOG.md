@@ -3,6 +3,15 @@
 All notable changes to NexHuman will be documented in this file.
 
 ## [Unreleased]
+### Architecture
+
+- Defined domain-oriented Django backend architecture
+- Selected PostgreSQL as the primary database
+- Defined email-based JWT authentication architecture
+- Defined backend-mediated market-data architecture
+- Defined persistent optimisation-run history
+- Defined investment profiling as a separate backend domain
+- Defined persistent, context-aware AI advisor architecture
 
 ### Planned
 

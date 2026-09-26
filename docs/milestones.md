@@ -17,7 +17,7 @@
 - [x] Entrance animations
 - [x] Mobile refinement
 - [x] Landing-page accessibility review
-- [ ] Final 3D brain model refinement
+- [~] Final 3D brain model refinement
 
 ## Phase 2 — Authentication
 
