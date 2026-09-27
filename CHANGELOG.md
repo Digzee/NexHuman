@@ -180,3 +180,43 @@ All notable changes to NexHuman will be documented in this file.
 - Added reusable authenticated API requests.
 - Added automatic JWT access-token refresh and request retry.
 - Improved portfolio editing and error-handling behaviour.
+
+### Market Data and Portfolio Analytics
+
+- Added provider-agnostic cryptocurrency market-data service.
+- Added CoinGecko integration for current and historical cryptocurrency prices.
+- Added supported cryptocurrency registry and authenticated API.
+- Restricted portfolio holdings to supported active cryptocurrencies.
+- Added supported-asset selector to portfolio management.
+- Added tested portfolio valuation service using live market prices.
+- Added cost-basis-aware profit, return and coverage calculations.
+- Added authenticated ownership-protected portfolio valuation endpoint.
+- Added live portfolio overview with automatic valuation refresh.
+- Added market-value-based asset allocation calculations.
+- Added asset allocation table and composition summary.
+- Added responsive portfolio allocation visualisation.
+
+### Portfolio Dashboard
+
+- Added authenticated dashboard application shell with responsive navigation.
+- Added persistent user-owned cryptocurrency portfolios and holdings.
+- Added portfolio creation, selection and asset management.
+- Added supported cryptocurrency registry backed by CoinGecko identifiers.
+- Added provider-independent market data service architecture.
+- Added live cryptocurrency valuation using CoinGecko market data.
+- Added portfolio value, profit/loss, return and cost-basis coverage metrics.
+- Added portfolio allocation calculations and interactive allocation visualisation.
+- Added historical portfolio performance analysis across 1M, 3M, 6M and 1Y periods.
+- Added total return and annualised return calculations.
+- Added annualised volatility using a 365-day cryptocurrency convention.
+- Added maximum drawdown calculation.
+- Added historical performance visualisation using current portfolio holdings.
+- Added portfolio risk analysis using volatility, drawdown and concentration.
+- Added HHI-style portfolio concentration and diversification analysis.
+- Added transparent portfolio risk classification.
+- Added responsive portfolio Risk Summary interface.
+- Added current-price and historical-price market data caching.
+- Added deterministic tests for portfolio analytics and market data caching.
+- Added authenticated and ownership-protected valuation, performance and risk APIs.
+- Completed end-to-end Portfolio Dashboard integration testing.
+- Completed responsive and accessibility review.

@@ -5,6 +5,8 @@ from .views import (
     PortfolioAssetListCreateView,
     PortfolioDetailView,
     PortfolioListCreateView,
+    PortfolioPerformanceView,
+    PortfolioRiskView,
     PortfolioValuationView,
 )
 
@@ -34,5 +36,15 @@ urlpatterns = [
         "<int:pk>/valuation/",
         PortfolioValuationView.as_view(),
         name="portfolio_valuation",
+    ),
+    path(
+        "<int:pk>/performance/",
+        PortfolioPerformanceView.as_view(),
+        name="portfolio_performance",
+    ),
+    path(
+        "<int:pk>/risk/",
+        PortfolioRiskView.as_view(),
+        name="portfolio_risk",
     ),
 ]

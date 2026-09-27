@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 
 import AddAssetForm from "../components/portfolio/AddAssetForm";
+import AllocationChart from "../components/portfolio/AllocationChart";
+import AssetAllocation from "../components/portfolio/AssetAllocation";
 import CreatePortfolioForm from "../components/portfolio/CreatePortfolioForm";
 import HoldingsTable from "../components/portfolio/HoldingsTable";
 import PortfolioOverview from "../components/portfolio/PortfolioOverview";
+import PortfolioPerformance from "../components/portfolio/PortfolioPerformance";
+import PortfolioRiskSummary from "../components/portfolio/PortfolioRiskSummary";
 import PortfolioSelector from "../components/portfolio/PortfolioSelector";
 import { API_BASE_URL } from "../config/api";
 import { useAuth } from "../context/AuthContext";
-import AssetAllocation from "../components/portfolio/AssetAllocation";
-import AllocationChart from "../components/portfolio/AllocationChart";
 
 
 function PortfolioPage() {
@@ -47,6 +49,18 @@ function PortfolioPage() {
     useState(false);
   const [valuationError, setValuationError] = useState("");
 
+  const [performance, setPerformance] = useState(null);
+  const [selectedPerformanceDays, setSelectedPerformanceDays] =
+    useState(30);
+  const [isPerformanceLoading, setIsPerformanceLoading] =
+    useState(false);
+  const [performanceError, setPerformanceError] = useState("");
+
+  const [risk, setRisk] = useState(null);
+  const [isRiskLoading, setIsRiskLoading] = useState(false);
+  const [riskError, setRiskError] = useState("");
+
+
   async function fetchValuation(portfolioId) {
     setIsValuationLoading(true);
     setValuationError("");
@@ -75,6 +89,71 @@ function PortfolioPage() {
     }
   }
 
+
+  async function fetchPerformance(
+    portfolioId,
+    days = selectedPerformanceDays
+  ) {
+    setIsPerformanceLoading(true);
+    setPerformanceError("");
+
+    try {
+      const response = await authenticatedFetch(
+        `${API_BASE_URL}/portfolios/${portfolioId}/performance/?days=${days}`
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          "Unable to load historical performance."
+        );
+      }
+
+      const data = await response.json();
+
+      setPerformance(data);
+    } catch {
+      setPerformance(null);
+      setPerformanceError(
+        "We couldn't load the historical portfolio performance."
+      );
+    } finally {
+      setIsPerformanceLoading(false);
+    }
+  }
+
+
+  async function fetchRisk(
+    portfolioId,
+    days = selectedPerformanceDays
+  ) {
+    setIsRiskLoading(true);
+    setRiskError("");
+
+    try {
+      const response = await authenticatedFetch(
+        `${API_BASE_URL}/portfolios/${portfolioId}/risk/?days=${days}`
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          "Unable to load portfolio risk."
+        );
+      }
+
+      const data = await response.json();
+
+      setRisk(data);
+    } catch {
+      setRisk(null);
+      setRiskError(
+        "We couldn't load the portfolio risk analysis."
+      );
+    } finally {
+      setIsRiskLoading(false);
+    }
+  }
+
+
   useEffect(() => {
     async function fetchPortfolios() {
       try {
@@ -83,7 +162,9 @@ function PortfolioPage() {
         );
 
         if (!response.ok) {
-          throw new Error("Unable to load portfolios.");
+          throw new Error(
+            "Unable to load portfolios."
+          );
         }
 
         const data = await response.json();
@@ -101,6 +182,7 @@ function PortfolioPage() {
         setIsLoading(false);
       }
     }
+
 
     async function fetchSupportedAssets() {
       try {
@@ -124,6 +206,7 @@ function PortfolioPage() {
       }
     }
 
+
     fetchPortfolios();
     fetchSupportedAssets();
 
@@ -131,6 +214,7 @@ function PortfolioPage() {
     // These requests should run once when the page mounts.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   useEffect(() => {
     if (!selectedPortfolio) {
@@ -143,6 +227,32 @@ function PortfolioPage() {
     // authenticatedFetch is provided by AuthContext.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPortfolio?.id]);
+
+
+  useEffect(() => {
+    if (!selectedPortfolio) {
+      setPerformance(null);
+      setRisk(null);
+      return;
+    }
+
+    fetchPerformance(
+      selectedPortfolio.id,
+      selectedPerformanceDays
+    );
+
+    fetchRisk(
+      selectedPortfolio.id,
+      selectedPerformanceDays
+    );
+
+    // authenticatedFetch is provided by AuthContext.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    selectedPortfolio?.id,
+    selectedPerformanceDays,
+  ]);
+
 
   async function handleCreatePortfolio(event) {
     event.preventDefault();
@@ -172,7 +282,9 @@ function PortfolioPage() {
       );
 
       if (!response.ok) {
-        throw new Error("Unable to create portfolio.");
+        throw new Error(
+          "Unable to create portfolio."
+        );
       }
 
       const createdPortfolio = await response.json();
@@ -183,6 +295,7 @@ function PortfolioPage() {
       ]);
 
       setSelectedPortfolio(createdPortfolio);
+      setSelectedPerformanceDays(30);
       setNewPortfolioName("");
       setIsCreating(false);
     } catch {
@@ -194,6 +307,7 @@ function PortfolioPage() {
     }
   }
 
+
   async function handleAddAsset(event) {
     event.preventDefault();
 
@@ -203,7 +317,8 @@ function PortfolioPage() {
 
     const symbol = assetSymbol.trim();
     const quantity = assetQuantity.trim();
-    const averagePurchasePrice = assetPurchasePrice.trim();
+    const averagePurchasePrice =
+      assetPurchasePrice.trim();
 
     if (!symbol || !quantity) {
       setAssetError(
@@ -263,7 +378,17 @@ function PortfolioPage() {
         )
       );
 
-      await fetchValuation(selectedPortfolio.id);
+      await Promise.all([
+        fetchValuation(selectedPortfolio.id),
+        fetchPerformance(
+          selectedPortfolio.id,
+          selectedPerformanceDays
+        ),
+        fetchRisk(
+          selectedPortfolio.id,
+          selectedPerformanceDays
+        ),
+      ]);
 
       setAssetSymbol("");
       setAssetQuantity("");
@@ -279,6 +404,7 @@ function PortfolioPage() {
     }
   }
 
+
   function handleStartEditing(asset) {
     setEditingAssetId(asset.id);
     setEditQuantity(asset.quantity);
@@ -288,6 +414,7 @@ function PortfolioPage() {
     setAssetActionError("");
   }
 
+
   function handleCancelEditing() {
     setEditingAssetId(null);
     setEditQuantity("");
@@ -295,13 +422,16 @@ function PortfolioPage() {
     setAssetActionError("");
   }
 
+
   async function handleUpdateAsset(assetId) {
     if (!selectedPortfolio) {
       return;
     }
 
     if (!editQuantity.trim()) {
-      setAssetActionError("Enter a quantity.");
+      setAssetActionError(
+        "Enter a quantity."
+      );
       return;
     }
 
@@ -334,10 +464,11 @@ function PortfolioPage() {
 
       const updatedPortfolio = {
         ...selectedPortfolio,
-        assets: selectedPortfolio.assets.map((asset) =>
-          asset.id === updatedAsset.id
-            ? updatedAsset
-            : asset
+        assets: selectedPortfolio.assets.map(
+          (asset) =>
+            asset.id === updatedAsset.id
+              ? updatedAsset
+              : asset
         ),
       };
 
@@ -351,7 +482,17 @@ function PortfolioPage() {
         )
       );
 
-      await fetchValuation(selectedPortfolio.id);
+      await Promise.all([
+        fetchValuation(selectedPortfolio.id),
+        fetchPerformance(
+          selectedPortfolio.id,
+          selectedPerformanceDays
+        ),
+        fetchRisk(
+          selectedPortfolio.id,
+          selectedPerformanceDays
+        ),
+      ]);
 
       handleCancelEditing();
     } catch {
@@ -362,6 +503,7 @@ function PortfolioPage() {
       setIsAssetActionSubmitting(false);
     }
   }
+
 
   async function handleDeleteAsset(asset) {
     if (!selectedPortfolio) {
@@ -411,7 +553,17 @@ function PortfolioPage() {
         )
       );
 
-      await fetchValuation(selectedPortfolio.id);
+      await Promise.all([
+        fetchValuation(selectedPortfolio.id),
+        fetchPerformance(
+          selectedPortfolio.id,
+          selectedPerformanceDays
+        ),
+        fetchRisk(
+          selectedPortfolio.id,
+          selectedPerformanceDays
+        ),
+      ]);
 
       if (editingAssetId === asset.id) {
         handleCancelEditing();
@@ -424,6 +576,7 @@ function PortfolioPage() {
       setIsAssetActionSubmitting(false);
     }
   }
+
 
   return (
     <section>
@@ -456,6 +609,7 @@ function PortfolioPage() {
         </button>
       </div>
 
+
       {isCreating && (
         <CreatePortfolioForm
           name={newPortfolioName}
@@ -471,6 +625,7 @@ function PortfolioPage() {
         />
       )}
 
+
       <div className="mt-8">
         {isLoading && (
           <div className="rounded-2xl border border-white/10 bg-[#0B1020] p-6">
@@ -480,6 +635,7 @@ function PortfolioPage() {
           </div>
         )}
 
+
         {!isLoading && error && (
           <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-6">
             <p className="text-sm text-red-300">
@@ -487,6 +643,7 @@ function PortfolioPage() {
             </p>
           </div>
         )}
+
 
         {!isLoading &&
           !error &&
@@ -503,6 +660,7 @@ function PortfolioPage() {
             </div>
           )}
 
+
         {!isLoading &&
           !error &&
           portfolios.length > 0 && (
@@ -512,6 +670,7 @@ function PortfolioPage() {
                 selectedPortfolio={selectedPortfolio}
                 onSelect={(portfolio) => {
                   setSelectedPortfolio(portfolio);
+                  setSelectedPerformanceDays(30);
                   setEditingAssetId(null);
                   setAssetActionError("");
                   setIsAddingAsset(false);
@@ -521,6 +680,7 @@ function PortfolioPage() {
                   setAssetError("");
                 }}
               />
+
 
               {selectedPortfolio && (
                 <div className="mt-8 rounded-2xl border border-white/10 bg-[#0B1020]">
@@ -555,6 +715,7 @@ function PortfolioPage() {
                     </button>
                   </div>
 
+
                   {isAddingAsset && (
                     <AddAssetForm
                       symbol={assetSymbol}
@@ -584,6 +745,7 @@ function PortfolioPage() {
                     />
                   )}
 
+
                   <div className="p-6">
                     <PortfolioOverview
                       valuation={valuation}
@@ -591,18 +753,47 @@ function PortfolioPage() {
                       error={valuationError}
                     />
 
+                    <PortfolioPerformance
+                      performance={performance}
+                      selectedDays={
+                        selectedPerformanceDays
+                      }
+                      onPeriodChange={
+                        setSelectedPerformanceDays
+                      }
+                      isLoading={
+                        isPerformanceLoading
+                      }
+                      error={performanceError}
+                    />
+
+                    <div className="mt-8">
+                      <PortfolioRiskSummary
+                        risk={risk}
+                        isLoading={isRiskLoading}
+                        error={riskError}
+                      />
+                    </div>
+
                     <AllocationChart
                       valuation={valuation}
                     />
+
                     <AssetAllocation
                       valuation={valuation}
                     />
 
                     <div className="mt-8">
                       <HoldingsTable
-                        assets={selectedPortfolio.assets}
-                        editingAssetId={editingAssetId}
-                        editQuantity={editQuantity}
+                        assets={
+                          selectedPortfolio.assets
+                        }
+                        editingAssetId={
+                          editingAssetId
+                        }
+                        editQuantity={
+                          editQuantity
+                        }
                         editPurchasePrice={
                           editPurchasePrice
                         }
@@ -624,7 +815,9 @@ function PortfolioPage() {
                         onDeleteAsset={
                           handleDeleteAsset
                         }
-                        error={assetActionError}
+                        error={
+                          assetActionError
+                        }
                         isSubmitting={
                           isAssetActionSubmitting
                         }

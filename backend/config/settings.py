@@ -63,6 +63,16 @@ INSTALLED_APPS = [
     "market_data",
 ]
 
+CACHES = {
+    "default": {
+        "BACKEND": (
+            "django.core.cache.backends.locmem."
+            "LocMemCache"
+        ),
+        "LOCATION": "nexhuman-market-data",
+    }
+}
+
 # Custom user model
 AUTH_USER_MODEL = "accounts.User"
 

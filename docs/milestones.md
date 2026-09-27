@@ -92,7 +92,6 @@
   - [x] Automatic JWT refresh
 
 - [x] Portfolio overview
-  - [x] Portfolio selector
   - [x] Portfolio value summary
   - [x] Portfolio return summary
   - [x] Portfolio statistics
@@ -102,17 +101,26 @@
   - [x] Asset allocation table
   - [x] Portfolio composition summary
 
-- [ ] Performance
-  - [ ] Historical performance chart
-  - [ ] Portfolio performance metrics
+- [x] Performance
+  - [x] Historical performance chart
+  - [x] Portfolio performance metrics
 
-- [ ] Risk summary
-  - [ ] Risk metrics
-  - [ ] Risk profile display
-  - [ ] Diversification summary
+- [x] Risk summary
+  - [x] Risk metrics backend service
+  - [x] Risk classification backend service
+  - [x] Diversification summary backend service
+  - [x] Risk API tests
+  - [x] Live risk endpoint integration verification
+  - [x] Risk summary frontend
 
-- [ ] Dashboard integration testing
-- [ ] Dashboard accessibility and responsive review
+- [x] Market data caching
+  - [x] Current-price caching
+  - [x] Historical-price caching
+  - [x] Cache tests
+  - [x] Live cache verification
+
+- [x] Dashboard integration testing
+- [x] Dashboard accessibility and responsive review
 
 ## Phase 4 — Evolutionary Optimizer
 
