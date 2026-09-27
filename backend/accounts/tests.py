@@ -167,3 +167,74 @@ class LoginTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("access", response.data)
         self.assertIn("refresh", response.data)
+
+    def test_user_can_logout_and_blacklist_refresh_token(self):
+        login_response = self.client.post(
+            self.url,
+            {
+                "email": "login@example.com",
+                "password": "SecureTestPassword123!",
+            },
+            format="json",
+        )
+
+        access_token = login_response.data["access"]
+        refresh_token = login_response.data["refresh"]
+
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Bearer {access_token}"
+        )
+
+        logout_response = self.client.post(
+            reverse("logout"),
+            {"refresh": refresh_token},
+            format="json",
+        )
+
+        self.assertEqual(
+            logout_response.status_code,
+            status.HTTP_204_NO_CONTENT,
+        )
+
+        self.client.credentials()
+
+        refresh_response = self.client.post(
+            reverse("token_refresh"),
+            {"refresh": refresh_token},
+            format="json",
+        )
+
+        self.assertEqual(
+            refresh_response.status_code,
+            status.HTTP_401_UNAUTHORIZED,
+        )
+
+class CurrentUserTests(APITestCase):
+    def setUp(self):
+        self.url = reverse("current_user")
+
+        self.user = User.objects.create_user(
+            email="current@example.com",
+            password="SecureTestPassword123!",
+            first_name="Current",
+            last_name="User",
+        )
+
+    def test_authenticated_user_can_retrieve_profile(self):
+        self.client.force_authenticate(user=self.user)
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["email"], "current@example.com")
+        self.assertEqual(response.data["first_name"], "Current")
+        self.assertEqual(response.data["last_name"], "User")
+        self.assertNotIn("password", response.data)
+
+    def test_unauthenticated_user_cannot_retrieve_profile(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_401_UNAUTHORIZED,
+        )

@@ -45,13 +45,13 @@
   - [x] Login frontend
   - [x] Login integration and testing
 
-- [ ] User sessions
-  - [ ] Authenticated user endpoint
-  - [ ] Frontend authentication state
-  - [ ] Token refresh
-  - [ ] Protected routes
-  - [ ] Logout
-  - [ ] Session persistence and testing
+- [x] User sessions
+  - [x] Authenticated user endpoint
+  - [x] Frontend authentication state
+  - [x] Token refresh
+  - [x] Protected routes
+  - [x] Logout
+  - [x] Session persistence and testing
 
 - [ ] Password reset
   - [ ] Password reset request endpoint

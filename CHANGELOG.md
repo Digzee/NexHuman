@@ -148,3 +148,11 @@ All notable changes to NexHuman will be documented in this file.
 - Integrated the login page with the Django REST API.
 - Added Login and Register navigation to the landing page.
 - Improved reusable Button component to support internal navigation.
+- Added authenticated current-user API endpoint.
+- Added central React authentication state using AuthContext.
+- Added JWT session restoration using refresh-token rotation.
+- Added protected frontend routes for authenticated users.
+- Added session persistence across page refreshes.
+- Added server-side logout with refresh-token blacklisting.
+- Added a protected dashboard placeholder for Phase 3.
+- Added automated tests for authenticated-user access and refresh-token invalidation.

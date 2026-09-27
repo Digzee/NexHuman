@@ -1,10 +1,21 @@
 import { Link } from "react-router-dom";
-
+import { useAuth } from "../../context/AuthContext";
 import Container from "../layout/Container";
 import Button from "../ui/Button";
 
 
+
 function Navbar() {
+  const {
+    user,
+    isAuthenticated,
+    isLoading,
+    logout,
+  } = useAuth();
+
+  async function handleLogout() {
+    await logout();
+  }
   return (
     <header className="relative z-20 border-b border-white/5 bg-[#050816]/80 backdrop-blur-md">
       <Container className="flex h-20 items-center justify-between">
@@ -33,16 +44,38 @@ function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link
-            to="/login"
-            className="hidden px-4 py-2 text-sm font-medium text-slate-300 transition hover:text-white sm:block"
-          >
-            Login
-          </Link>
+          {!isLoading && (
+            <>
+              {isAuthenticated ? (
+                <>
+                  <span className="hidden text-sm text-slate-300 sm:block">
+                    {user.first_name}
+                  </span>
 
-          <Button to="/register" className="px-5 py-2.5">
-            Register
-          </Button>
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="px-4 py-2 text-sm font-medium text-slate-300 transition hover:text-white"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="hidden px-4 py-2 text-sm font-medium text-slate-300 transition hover:text-white sm:block"
+                  >
+                    Login
+                  </Link>
+
+                  <Button to="/register" className="px-5 py-2.5">
+                    Register
+                  </Button>
+                </>
+              )}
+            </>
+          )}
         </div>
       </Container>
     </header>

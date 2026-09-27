@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 
 const initialFormData = {
@@ -13,6 +14,8 @@ function LoginPage() {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -53,13 +56,13 @@ function LoginPage() {
         return;
       }
 
-      /*
-       * Token storage will be handled by the authentication
-       * state/session layer in the next milestone.
-       */
-      //console.log("Login successful", data);
-
+      login(data);
       setIsSuccess(true);
+
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 500);
+
     } catch {
       setError("Unable to connect to NexHuman. Please try again.");
     } finally {
