@@ -66,10 +66,53 @@
 
 ## Phase 3 — Portfolio Dashboard
 
+- [x] Dashboard application shell
+  - [x] Dashboard layout
+  - [x] Sidebar navigation
+  - [x] Top navigation and user controls
+  - [x] Responsive dashboard behaviour
+  - [x] Dashboard routing
+
+- [x] Portfolio backend
+  - [x] Portfolio database model
+  - [x] Portfolio asset model
+  - [x] Portfolio API endpoints
+  - [x] Portfolio ownership permissions
+  - [x] Portfolio API tests
+
+- [x] Portfolio management
+  - [x] Portfolio creation
+  - [x] Portfolio selection
+  - [x] Asset creation
+  - [x] Asset editing
+  - [x] Asset deletion
+  - [x] Persistent portfolio data
+  - [x] Reusable portfolio components
+  - [x] Authenticated API requests
+  - [x] Automatic JWT refresh
+
 - [ ] Portfolio overview
+  - [ ] Portfolio selector
+  - [ ] Portfolio value summary
+  - [ ] Portfolio return summary
+  - [ ] Portfolio statistics
+
 - [ ] Asset allocation
-- [ ] Performance charts
+  - [ ] Allocation visualisation
+  - [ ] Asset allocation table
+  - [ ] Portfolio composition summary
+
+- [ ] Performance
+  - [ ] Historical performance chart
+  - [ ] Portfolio performance metrics
+
 - [ ] Risk summary
+  - [ ] Risk metrics
+  - [ ] Risk profile display
+  - [ ] Diversification summary
+
+- [ ] Dashboard integration testing
+- [ ] Dashboard accessibility and responsive review
 
 ## Phase 4 — Evolutionary Optimizer
 

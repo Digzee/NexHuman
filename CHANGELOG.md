@@ -166,3 +166,17 @@ All notable changes to NexHuman will be documented in this file.
 - Centralised the frontend API base URL using Vite environment configuration.
 - Improved logout security using server-side refresh-token blacklisting.
 - Completed authentication accessibility, security and integration testing.
+
+### Portfolio Management
+
+- Added portfolio and portfolio asset database models.
+- Added authenticated portfolio REST API endpoints.
+- Added user ownership protection for portfolio resources.
+- Added portfolio API test coverage.
+- Added portfolio creation and selection interface.
+- Added cryptocurrency holding creation, editing and deletion.
+- Added persistent portfolio management backed by PostgreSQL.
+- Refactored portfolio interface into reusable React components.
+- Added reusable authenticated API requests.
+- Added automatic JWT access-token refresh and request retry.
+- Improved portfolio editing and error-handling behaviour.

@@ -59,7 +59,7 @@ INSTALLED_APPS = [
 
     # Local
     "accounts",
-    
+    "portfolios",
 ]
 
 # Custom user model

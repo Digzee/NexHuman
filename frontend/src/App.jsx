@@ -7,7 +7,8 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import DashboardPage from "./pages/DashboardPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
-
+import DashboardLayout from "./components/dashboard/DashboardLayout";
+import PortfolioPage from "./pages/PortfolioPage";
 
 function App() {
   return (
@@ -27,7 +28,10 @@ function App() {
       />
 
       <Route element={<ProtectedRoute />}>
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<DashboardPage />} />
+          <Route path="portfolio" element={<PortfolioPage />} />
+        </Route>
       </Route>
     </Routes>
   );
