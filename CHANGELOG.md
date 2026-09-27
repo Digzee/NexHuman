@@ -156,3 +156,13 @@ All notable changes to NexHuman will be documented in this file.
 - Added server-side logout with refresh-token blacklisting.
 - Added a protected dashboard placeholder for Phase 3.
 - Added automated tests for authenticated-user access and refresh-token invalidation.
+- Added secure password-reset request and confirmation endpoints.
+- Added Django token-based password-reset workflow.
+- Added account-enumeration protection for password-reset requests.
+- Added development password-reset email delivery.
+- Added forgot-password and new-password frontend flows.
+- Added password-strength validation to password resets.
+- Added automated password-reset tests.
+- Centralised the frontend API base URL using Vite environment configuration.
+- Improved logout security using server-side refresh-token blacklisting.
+- Completed authentication accessibility, security and integration testing.

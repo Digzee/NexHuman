@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "../config/api";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -39,7 +40,7 @@ function RegisterPage() {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/v1/auth/register/",
+        `${API_BASE_URL}/auth/register/`,
         {
           method: "POST",
           headers: {

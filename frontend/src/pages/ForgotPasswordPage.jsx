@@ -1,33 +1,13 @@
 import { API_BASE_URL } from "../config/api";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 
-const initialFormData = {
-  email: "",
-  password: "",
-};
-
-
-function LoginPage() {
-  const [formData, setFormData] = useState(initialFormData);
+function ForgotPasswordPage() {
+  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const navigate = useNavigate();
-  const { login } = useAuth();
-
-  function handleChange(event) {
-    const { name, value } = event.target;
-
-    setFormData((current) => ({
-      ...current,
-      [name]: value,
-    }));
-
-    setError("");
-  }
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -38,36 +18,24 @@ function LoginPage() {
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/auth/login/`,
+        `${API_BASE_URL}/auth/password-reset/`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({ email }),
         }
       );
 
-      const data = await response.json();
-
       if (!response.ok) {
-        setError(
-          data.detail || "Unable to log in with the provided credentials."
-        );
+        setError("Unable to process the password reset request.");
         return;
       }
 
-      login(data);
       setIsSuccess(true);
-
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 500);
-
     } catch {
-      setError(
-        "Something went wrong while logging in. Please try again."
-      );
+      setError("Unable to connect to NexHuman. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -85,16 +53,16 @@ function LoginPage() {
 
         <div>
           <p className="mb-3 text-sm font-medium text-cyan-400">
-            Welcome back
+            Password recovery
           </p>
 
           <h1 className="text-4xl font-semibold tracking-tight">
-            Log in to NexHuman.
+            Reset your password.
           </h1>
 
           <p className="mt-4 text-sm leading-6 text-slate-400">
-            Access your portfolios, optimisation results and intelligent
-            investment insights.
+            Enter your email address and we'll send you instructions
+            to reset your NexHuman password.
           </p>
         </div>
 
@@ -116,55 +84,25 @@ function LoginPage() {
               name="email"
               type="email"
               autoComplete="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 outline-none transition focus:border-cyan-400/60"
-            />
-          </div>
-
-          <div>
-            <div className="mb-2 flex items-center justify-between">
-              <label
-                htmlFor="password"
-                className="text-sm text-slate-300"
-              >
-                Password
-              </label>
-
-              <Link
-                to="/forgot-password"
-                className="text-sm text-slate-400 transition hover:text-cyan-300"
-              >
-                Forgot password?
-              </Link>
-            </div>
-
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              value={formData.password}
-              onChange={handleChange}
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value);
+                setError("");
+              }}
               className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 outline-none transition focus:border-cyan-400/60"
             />
           </div>
 
           {error && (
-            <p
-              role="alert"
-              className="text-sm text-red-400"
-            >
+            <p role="alert" className="text-sm text-red-400">
               {error}
             </p>
           )}
 
           {isSuccess && (
-            <p
-              role="status"
-              className="text-sm text-green-400"
-            >
-              Login successful.
+            <p role="status" className="text-sm text-green-400">
+              If an account exists for this email address, password
+              reset instructions have been sent.
             </p>
           )}
 
@@ -173,17 +111,19 @@ function LoginPage() {
             disabled={isSubmitting}
             className="w-full rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 px-5 py-3 font-medium transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isSubmitting ? "Logging in..." : "Log in"}
+            {isSubmitting
+              ? "Sending instructions..."
+              : "Send reset instructions"}
           </button>
         </form>
 
         <p className="mt-6 text-center text-sm text-slate-400">
-          Don't have an account?{" "}
+          Remember your password?{" "}
           <Link
-            to="/register"
+            to="/login"
             className="font-medium text-cyan-400 hover:text-cyan-300"
           >
-            Create one
+            Log in
           </Link>
         </p>
       </div>
@@ -192,4 +132,4 @@ function LoginPage() {
 }
 
 
-export default LoginPage;
+export default ForgotPasswordPage;

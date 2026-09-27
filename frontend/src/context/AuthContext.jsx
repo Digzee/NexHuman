@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "../config/api";
 import {
   createContext,
   useContext,
@@ -7,8 +8,6 @@ import {
 
 
 const AuthContext = createContext(null);
-
-const API_BASE_URL = "http://127.0.0.1:8000/api/v1";
 
 
 export function AuthProvider({ children }) {

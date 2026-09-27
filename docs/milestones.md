@@ -53,16 +53,16 @@
   - [x] Logout
   - [x] Session persistence and testing
 
-- [ ] Password reset
-  - [ ] Password reset request endpoint
-  - [ ] Secure reset token workflow
-  - [ ] Password reset email
-  - [ ] New-password endpoint
-  - [ ] Password reset frontend
-  - [ ] Password reset integration and testing
+- [x] Password reset
+  - [x] Password reset request endpoint
+  - [x] Secure reset token workflow
+  - [x] Password reset email
+  - [x] New-password endpoint
+  - [x] Password reset frontend
+  - [x] Password reset integration and testing
 
-- [ ] Authentication accessibility and security review
-- [ ] Phase 2 integration testing
+- [x] Authentication accessibility and security review
+- [x] Phase 2 integration testing
 
 ## Phase 3 — Portfolio Dashboard
 

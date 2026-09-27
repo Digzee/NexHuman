@@ -3,7 +3,9 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .models import User
-
+from django.contrib.auth import get_user_model
+from django.utils.encoding import force_str
+from django.utils.http import urlsafe_base64_decode
 
 class RegisterSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(
@@ -59,3 +61,32 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
         )
         read_only_fields = fields
+
+class PasswordResetRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+
+class PasswordResetConfirmSerializer(serializers.Serializer):
+    uid = serializers.CharField()
+    token = serializers.CharField()
+    password = serializers.CharField(
+        write_only=True,
+        validators=[validate_password],
+    )
+
+    def validate(self, attrs):
+        UserModel = get_user_model()
+
+        try:
+            user_id = force_str(
+                urlsafe_base64_decode(attrs["uid"])
+            )
+            user = UserModel.objects.get(pk=user_id)
+        except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
+            raise serializers.ValidationError(
+                {"detail": "Invalid password reset link."}
+            )
+
+        attrs["user"] = user
+
+        return attrs

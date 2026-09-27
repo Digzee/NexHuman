@@ -2,6 +2,10 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
+from django.contrib.auth.tokens import default_token_generator
+from django.core import mail
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 
 
 User = get_user_model()
@@ -178,12 +182,12 @@ class LoginTests(APITestCase):
             format="json",
         )
 
-        access_token = login_response.data["access"]
+        #access_token = login_response.data["access"]
         refresh_token = login_response.data["refresh"]
 
-        self.client.credentials(
-            HTTP_AUTHORIZATION=f"Bearer {access_token}"
-        )
+        #self.client.credentials(
+        #    HTTP_AUTHORIZATION=f"Bearer {access_token}"
+        #)
 
         logout_response = self.client.post(
             reverse("logout"),
@@ -196,7 +200,7 @@ class LoginTests(APITestCase):
             status.HTTP_204_NO_CONTENT,
         )
 
-        self.client.credentials()
+        #self.client.credentials()
 
         refresh_response = self.client.post(
             reverse("token_refresh"),
@@ -237,4 +241,158 @@ class CurrentUserTests(APITestCase):
         self.assertEqual(
             response.status_code,
             status.HTTP_401_UNAUTHORIZED,
+        )
+
+class PasswordResetTests(APITestCase):
+    def setUp(self):
+        self.request_url = reverse("password_reset")
+        self.confirm_url = reverse("password_reset_confirm")
+
+        self.user = User.objects.create_user(
+            email="reset@example.com",
+            password="OldSecurePassword123!",
+            first_name="Reset",
+            last_name="User",
+        )
+
+    def test_password_reset_request_sends_email(self):
+        response = self.client.post(
+            self.request_url,
+            {"email": "reset@example.com"},
+            format="json",
+        )
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+        )
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].to,
+            ["reset@example.com"],
+        )
+        self.assertIn(
+            "/reset-password/",
+            mail.outbox[0].body,
+        )
+
+    def test_unknown_email_returns_same_response(self):
+        known_response = self.client.post(
+            self.request_url,
+            {"email": "reset@example.com"},
+            format="json",
+        )
+
+        unknown_response = self.client.post(
+            self.request_url,
+            {"email": "unknown@example.com"},
+            format="json",
+        )
+
+        self.assertEqual(
+            known_response.status_code,
+            status.HTTP_200_OK,
+        )
+        self.assertEqual(
+            unknown_response.status_code,
+            status.HTTP_200_OK,
+        )
+        self.assertEqual(
+            known_response.data,
+            unknown_response.data,
+        )
+
+    def test_password_can_be_reset_with_valid_token(self):
+        uid = urlsafe_base64_encode(
+            force_bytes(self.user.pk)
+        )
+        token = default_token_generator.make_token(
+            self.user
+        )
+
+        response = self.client.post(
+            self.confirm_url,
+            {
+                "uid": uid,
+                "token": token,
+                "password": "NewSecurePassword123!",
+            },
+            format="json",
+        )
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+        )
+
+        self.user.refresh_from_db()
+
+        self.assertTrue(
+            self.user.check_password(
+                "NewSecurePassword123!"
+            )
+        )
+        self.assertFalse(
+            self.user.check_password(
+                "OldSecurePassword123!"
+            )
+        )
+
+    def test_invalid_reset_token_is_rejected(self):
+        uid = urlsafe_base64_encode(
+            force_bytes(self.user.pk)
+        )
+
+        response = self.client.post(
+            self.confirm_url,
+            {
+                "uid": uid,
+                "token": "invalid-token",
+                "password": "NewSecurePassword123!",
+            },
+            format="json",
+        )
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_400_BAD_REQUEST,
+        )
+
+        self.user.refresh_from_db()
+
+        self.assertTrue(
+            self.user.check_password(
+                "OldSecurePassword123!"
+            )
+        )
+
+    def test_weak_new_password_is_rejected(self):
+        uid = urlsafe_base64_encode(
+            force_bytes(self.user.pk)
+        )
+        token = default_token_generator.make_token(
+            self.user
+        )
+
+        response = self.client.post(
+            self.confirm_url,
+            {
+                "uid": uid,
+                "token": token,
+                "password": "password",
+            },
+            format="json",
+        )
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_400_BAD_REQUEST,
+        )
+
+        self.user.refresh_from_db()
+
+        self.assertTrue(
+            self.user.check_password(
+                "OldSecurePassword123!"
+            )
         )
