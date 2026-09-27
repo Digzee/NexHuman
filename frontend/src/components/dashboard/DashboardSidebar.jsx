@@ -3,6 +3,7 @@ import {
   FaGear,
   FaRobot,
   FaSliders,
+  FaUserCheck,
   FaWallet,
   FaXmark,
 } from "react-icons/fa6";
@@ -22,6 +23,11 @@ const navigation = [
     name: "Portfolio",
     to: "/dashboard/portfolio",
     icon: FaWallet,
+  },
+  {
+    name: "Investor Profile",
+    to: "/dashboard/profile",
+    icon: FaUserCheck,
   },
   {
     name: "Optimise",
@@ -75,7 +81,11 @@ function DashboardSidebar({
                   ].join(" ")
                 }
               >
-                <Icon aria-hidden="true" className="text-base" />
+                <Icon
+                  aria-hidden="true"
+                  className="text-base"
+                />
+
                 {item.name}
               </NavLink>
             );
@@ -112,6 +122,7 @@ function DashboardSidebar({
     );
   }
 
+
   return (
     <>
       {/* Desktop sidebar */}
@@ -144,7 +155,9 @@ function DashboardSidebar({
           "fixed inset-y-0 left-0 z-50 flex w-72 flex-col",
           "border-r border-white/10 bg-[#080C19]",
           "transition-transform duration-300 lg:hidden",
-          isOpen ? "translate-x-0" : "-translate-x-full",
+          isOpen
+            ? "translate-x-0"
+            : "-translate-x-full",
         ].join(" ")}
       >
         <div className="flex h-20 items-center justify-between border-b border-white/10 px-6">

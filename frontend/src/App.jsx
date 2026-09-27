@@ -9,6 +9,9 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
 import PortfolioPage from "./pages/PortfolioPage";
+import InvestorProfilePage from "./pages/InvestorProfilePage";
+import OptimizePage from "./pages/OptimizePage";
+import AdvisorPage from "./pages/AdvisorPage";
 
 function App() {
   return (
@@ -31,10 +34,23 @@ function App() {
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardPage />} />
           <Route path="portfolio" element={<PortfolioPage />} />
+          <Route
+            path="profile"
+            element={<InvestorProfilePage />}
+          />
+          <Route
+            path="optimise"
+            element={<OptimizePage />}
+          />
+          <Route
+            path="advisor"
+            element={<AdvisorPage />}
+          />
         </Route>
       </Route>
     </Routes>
   );
 }
+
 
 export default App;

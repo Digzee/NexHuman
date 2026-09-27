@@ -220,3 +220,68 @@ All notable changes to NexHuman will be documented in this file.
 - Added authenticated and ownership-protected valuation, performance and risk APIs.
 - Completed end-to-end Portfolio Dashboard integration testing.
 - Completed responsive and accessibility review.
+
+## Genetic Algorithm Optimisation and AI Advisor
+
+### Added
+
+- Added investor profiling with five questionnaire dimensions:
+  - investment horizon
+  - loss tolerance
+  - volatility comfort
+  - investment experience
+  - growth preference
+- Added calculated investor risk scores and Low, Moderate, and High risk labels.
+- Added persistent investor profiles with authenticated API access.
+- Added the Investor Profile dashboard interface.
+
+- Added a genetic algorithm portfolio optimiser.
+- Added long-only portfolio constraints with weights normalised to 100%.
+- Added investor-profile-dependent concentration constraints.
+- Added tournament selection, blend crossover, mutation, and elitism.
+- Added Sharpe-ratio-based fitness evaluation.
+- Added annualised historical return and volatility calculations.
+- Added equal-weight portfolio benchmarking.
+- Added deterministic random seeding support for testing and evaluation.
+- Added validation for infeasible portfolio concentration constraints.
+
+- Added historical return preparation using CoinGecko market data.
+- Added common-date alignment across cryptocurrency price series.
+- Added portfolio optimisation using the supported cryptocurrency universe.
+- Added persistent optimisation runs and recommended asset allocations.
+- Added authenticated optimisation and optimisation-history API endpoints.
+- Added the Portfolio Optimiser dashboard interface.
+
+- Added transparent recommendation explanations based on optimisation results.
+- Added comparisons between genetic algorithm and equal-weight portfolio performance.
+- Added investor-profile and historical-performance context to recommendations.
+
+- Added the NexHuman AI Advisor.
+- Integrated the OpenAI Responses API through the Django backend.
+- Added contextual AI responses using the authenticated user's investor profile,
+  portfolio holdings, and latest optimisation result.
+- Added the AI Advisor chat interface and suggested portfolio questions.
+- Added safeguards instructing the advisor to distinguish historical results from
+  forecasts and avoid presenting educational outputs as guaranteed investment advice.
+
+### Testing
+
+- Added investor-profile service and API tests.
+- Added genetic algorithm unit tests covering portfolio constraints,
+  reproducibility, risk-profile configuration, metrics, and equal-weight benchmarking.
+- Added portfolio optimisation API and optimisation-history tests.
+- Completed full Django regression testing successfully.
+- Completed Django system checks successfully.
+- Completed the frontend production build successfully.
+
+### Notes
+
+- Genetic algorithm optimisation currently uses 365 days of historical market data.
+- Cryptocurrency calculations use 365-day annualisation.
+- The risk-free rate is currently assumed to be 0 for Sharpe-ratio calculations.
+- Investor-profile concentration limits are prototype design heuristics rather than
+  regulated financial suitability thresholds.
+- Optimisation results are historical decision-support outputs and do not predict
+  future investment performance.
+- The AI Advisor is contextual but currently does not persist conversational memory
+  between individual requests.

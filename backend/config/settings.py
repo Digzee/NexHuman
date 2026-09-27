@@ -61,6 +61,9 @@ INSTALLED_APPS = [
     "accounts",
     "portfolios",
     "market_data",
+    "profiling",
+    "optimizer",
+    "advisor"
 ]
 
 CACHES = {
