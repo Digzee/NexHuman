@@ -8,6 +8,11 @@ from .serializers import (
     PortfolioSerializer,
 )
 
+from rest_framework.response import Response
+from .services.portfolio_valuation_service import (
+    PortfolioValuationService,
+)
+
 class PortfolioListCreateView(generics.ListCreateAPIView):
     serializer_class = PortfolioSerializer
     permission_classes = (IsAuthenticated,)
@@ -90,3 +95,23 @@ class PortfolioAssetDetailView(
         context = super().get_serializer_context()
         context["portfolio"] = self.get_portfolio()
         return context
+
+class PortfolioValuationView(generics.RetrieveAPIView):
+    """Return the current valuation of a user's portfolio."""
+
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        portfolio = get_object_or_404(
+            Portfolio,
+            pk=self.kwargs["pk"],
+            owner=request.user,
+        )
+
+        service = PortfolioValuationService()
+
+        valuation = service.value_portfolio(
+            portfolio
+        )
+
+        return Response(valuation)

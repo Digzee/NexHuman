@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from market_data.models import Cryptocurrency
+
 from .models import Portfolio, PortfolioAsset
 
 
@@ -21,7 +23,17 @@ class PortfolioAssetSerializer(serializers.ModelSerializer):
         )
 
     def validate_symbol(self, value):
-        return value.upper().strip()
+        symbol = value.upper().strip()
+
+        if not Cryptocurrency.objects.filter(
+            symbol=symbol,
+            is_active=True,
+        ).exists():
+            raise serializers.ValidationError(
+                "This cryptocurrency is not supported."
+            )
+
+        return symbol
 
     def validate(self, attrs):
         portfolio = self.context.get("portfolio")

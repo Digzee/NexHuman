@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     # Local
     "accounts",
     "portfolios",
+    "market_data",
 ]
 
 # Custom user model
@@ -173,4 +174,8 @@ DEFAULT_FROM_EMAIL = "NexHuman <noreply@nexhuman.local>"
 FRONTEND_URL = os.getenv(
     "FRONTEND_URL",
     "http://localhost:5173",
+)
+
+COINGECKO_API_KEY = os.getenv(
+    "COINGECKO_API_KEY"
 )

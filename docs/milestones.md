@@ -91,16 +91,16 @@
   - [x] Authenticated API requests
   - [x] Automatic JWT refresh
 
-- [ ] Portfolio overview
-  - [ ] Portfolio selector
-  - [ ] Portfolio value summary
-  - [ ] Portfolio return summary
-  - [ ] Portfolio statistics
+- [x] Portfolio overview
+  - [x] Portfolio selector
+  - [x] Portfolio value summary
+  - [x] Portfolio return summary
+  - [x] Portfolio statistics
 
-- [ ] Asset allocation
-  - [ ] Allocation visualisation
-  - [ ] Asset allocation table
-  - [ ] Portfolio composition summary
+- [x] Asset allocation
+  - [x] Allocation visualisation
+  - [x] Asset allocation table
+  - [x] Portfolio composition summary
 
 - [ ] Performance
   - [ ] Historical performance chart

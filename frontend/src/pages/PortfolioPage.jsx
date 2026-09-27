@@ -4,9 +4,12 @@ import { FaPlus } from "react-icons/fa6";
 import AddAssetForm from "../components/portfolio/AddAssetForm";
 import CreatePortfolioForm from "../components/portfolio/CreatePortfolioForm";
 import HoldingsTable from "../components/portfolio/HoldingsTable";
+import PortfolioOverview from "../components/portfolio/PortfolioOverview";
 import PortfolioSelector from "../components/portfolio/PortfolioSelector";
 import { API_BASE_URL } from "../config/api";
 import { useAuth } from "../context/AuthContext";
+import AssetAllocation from "../components/portfolio/AssetAllocation";
+import AllocationChart from "../components/portfolio/AllocationChart";
 
 
 function PortfolioPage() {
@@ -14,6 +17,7 @@ function PortfolioPage() {
 
   const [portfolios, setPortfolios] = useState([]);
   const [selectedPortfolio, setSelectedPortfolio] = useState(null);
+  const [supportedAssets, setSupportedAssets] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -37,6 +41,39 @@ function PortfolioPage() {
   const [assetActionError, setAssetActionError] = useState("");
   const [isAssetActionSubmitting, setIsAssetActionSubmitting] =
     useState(false);
+
+  const [valuation, setValuation] = useState(null);
+  const [isValuationLoading, setIsValuationLoading] =
+    useState(false);
+  const [valuationError, setValuationError] = useState("");
+
+  async function fetchValuation(portfolioId) {
+    setIsValuationLoading(true);
+    setValuationError("");
+
+    try {
+      const response = await authenticatedFetch(
+        `${API_BASE_URL}/portfolios/${portfolioId}/valuation/`
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          "Unable to load portfolio valuation."
+        );
+      }
+
+      const data = await response.json();
+
+      setValuation(data);
+    } catch {
+      setValuation(null);
+      setValuationError(
+        "We couldn't load the current portfolio valuation."
+      );
+    } finally {
+      setIsValuationLoading(false);
+    }
+  }
 
   useEffect(() => {
     async function fetchPortfolios() {
@@ -65,12 +102,47 @@ function PortfolioPage() {
       }
     }
 
+    async function fetchSupportedAssets() {
+      try {
+        const response = await authenticatedFetch(
+          `${API_BASE_URL}/market-data/cryptocurrencies/`
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            "Unable to load supported cryptocurrencies."
+          );
+        }
+
+        const data = await response.json();
+
+        setSupportedAssets(data);
+      } catch {
+        setError(
+          "We couldn't load the supported cryptocurrencies. Please try again."
+        );
+      }
+    }
+
     fetchPortfolios();
+    fetchSupportedAssets();
 
     // authenticatedFetch is provided by AuthContext.
-    // This request should run once when the page mounts.
+    // These requests should run once when the page mounts.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!selectedPortfolio) {
+      setValuation(null);
+      return;
+    }
+
+    fetchValuation(selectedPortfolio.id);
+
+    // authenticatedFetch is provided by AuthContext.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPortfolio?.id]);
 
   async function handleCreatePortfolio(event) {
     event.preventDefault();
@@ -135,7 +207,7 @@ function PortfolioPage() {
 
     if (!symbol || !quantity) {
       setAssetError(
-        "Enter an asset symbol and quantity."
+        "Select an asset and enter a quantity."
       );
       return;
     }
@@ -190,6 +262,8 @@ function PortfolioPage() {
             : portfolio
         )
       );
+
+      await fetchValuation(selectedPortfolio.id);
 
       setAssetSymbol("");
       setAssetQuantity("");
@@ -277,6 +351,8 @@ function PortfolioPage() {
         )
       );
 
+      await fetchValuation(selectedPortfolio.id);
+
       handleCancelEditing();
     } catch {
       setAssetActionError(
@@ -334,6 +410,8 @@ function PortfolioPage() {
             : portfolio
         )
       );
+
+      await fetchValuation(selectedPortfolio.id);
 
       if (editingAssetId === asset.id) {
         handleCancelEditing();
@@ -436,6 +514,11 @@ function PortfolioPage() {
                   setSelectedPortfolio(portfolio);
                   setEditingAssetId(null);
                   setAssetActionError("");
+                  setIsAddingAsset(false);
+                  setAssetSymbol("");
+                  setAssetQuantity("");
+                  setAssetPurchasePrice("");
+                  setAssetError("");
                 }}
               />
 
@@ -477,6 +560,10 @@ function PortfolioPage() {
                       symbol={assetSymbol}
                       quantity={assetQuantity}
                       purchasePrice={assetPurchasePrice}
+                      supportedAssets={supportedAssets}
+                      heldSymbols={selectedPortfolio.assets.map(
+                        (asset) => asset.symbol
+                      )}
                       onSymbolChange={setAssetSymbol}
                       onQuantityChange={setAssetQuantity}
                       onPurchasePriceChange={
@@ -498,36 +585,51 @@ function PortfolioPage() {
                   )}
 
                   <div className="p-6">
-                    <HoldingsTable
-                      assets={selectedPortfolio.assets}
-                      editingAssetId={editingAssetId}
-                      editQuantity={editQuantity}
-                      editPurchasePrice={
-                        editPurchasePrice
-                      }
-                      onEditQuantityChange={
-                        setEditQuantity
-                      }
-                      onEditPurchasePriceChange={
-                        setEditPurchasePrice
-                      }
-                      onStartEditing={
-                        handleStartEditing
-                      }
-                      onCancelEditing={
-                        handleCancelEditing
-                      }
-                      onUpdateAsset={
-                        handleUpdateAsset
-                      }
-                      onDeleteAsset={
-                        handleDeleteAsset
-                      }
-                      error={assetActionError}
-                      isSubmitting={
-                        isAssetActionSubmitting
-                      }
+                    <PortfolioOverview
+                      valuation={valuation}
+                      isLoading={isValuationLoading}
+                      error={valuationError}
                     />
+
+                    <AllocationChart
+                      valuation={valuation}
+                    />
+                    <AssetAllocation
+                      valuation={valuation}
+                    />
+
+                    <div className="mt-8">
+                      <HoldingsTable
+                        assets={selectedPortfolio.assets}
+                        editingAssetId={editingAssetId}
+                        editQuantity={editQuantity}
+                        editPurchasePrice={
+                          editPurchasePrice
+                        }
+                        onEditQuantityChange={
+                          setEditQuantity
+                        }
+                        onEditPurchasePriceChange={
+                          setEditPurchasePrice
+                        }
+                        onStartEditing={
+                          handleStartEditing
+                        }
+                        onCancelEditing={
+                          handleCancelEditing
+                        }
+                        onUpdateAsset={
+                          handleUpdateAsset
+                        }
+                        onDeleteAsset={
+                          handleDeleteAsset
+                        }
+                        error={assetActionError}
+                        isSubmitting={
+                          isAssetActionSubmitting
+                        }
+                      />
+                    </div>
                   </div>
                 </div>
               )}
